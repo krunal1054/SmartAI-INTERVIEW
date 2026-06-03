@@ -305,156 +305,58 @@ async (req, res) => {
   }
 
 };
-/*
-exports.evaluateAnswer =
-async (req, res) => {
-
-  try {
-
-    const {
-      question,
-      answer,
-    } = req.body;
-
- const model =
-  genAI.getGenerativeModel({
-
-    model:
-    "gemini-2.0-flash",
-
-  });
-
-    const prompt = `
-
-You are technical interviewer.
-
-Question:
-${question}
-
-Answer:
-${answer}
-
-Give score out of 10 only.
-
-Return only number.
-
-`;
-
-    const result =
-      await model.generateContent(
-        prompt
-      );
-
-    const score =
-      result.response
-      .text();
-
-    res.status(200).json({
-
-      success: true,
-
-      score,
-
-    });
-
-  } catch (error) {
-
-    console.log(error);
-
-    res.status(500).json({
-
-      message:
-      error.message,
-
-    });
-
-  }
-
-};*/
 
 exports.evaluateAnswer = async (req, res) => {
 
   try {
 
-    const {
-      question,
-      answer,
-    } = req.body;
+    const { answer } = req.body;
 
-    const model =
-      genAI.getGenerativeModel({
-        model: "gemini-2.0-flash",
+    if (!answer || !answer.trim()) {
+      return res.json({
+        success: true,
+        score: 0,
       });
+    }
 
-    const prompt = `
+    const words =
+      answer.trim().split(" ").length;
 
-You are an expert MERN Stack interviewer.
+    let score = 0;
 
-Question:
-${question}
+    if (words >= 50) {
+      score = 8;
+    }
+    else if (words >= 35) {
+      score = 6;
+    }
+    else if (words >= 20) {
+      score = 4;
+    }
+    else if (words >= 10) {
+      score = 2;
+    }
+    else {
+      score = 1;
+    }
 
-Candidate Answer:
-${answer}
-
-Evaluate the answer.
-
-Rules:
-
-- If answer is correct → score 10
-- If answer is partially correct → score 5
-- If answer is wrong → score 0
-
-Return ONLY score number.
-
-Examples:
-
-10
-
-or
-
-5
-
-or
-
-0
-
-`;
-
-    const result =
-      await model.generateContent(
-        prompt
-      );
-
-    const score =
-      parseInt(
-        result.response
-          .text()
-          .trim()
-      );
-
-    res.status(200).json({
-
+    return res.json({
       success: true,
-
       score,
-
     });
 
   } catch (error) {
 
     console.log(error);
 
-    res.status(500).json({
-
-      message:
-        error.message,
-
+    return res.json({
+      success: true,
+      score: 0,
     });
 
   }
 
 };
-
 exports.getInterviewStats = async (req, res) => {
 
   try {
@@ -643,11 +545,16 @@ async (req, res) => {
   }
 
 };
-
 exports.generateFeedback =
 async (req, res) => {
 
   try {
+
+    console.log(
+      "========== FEEDBACK HIT =========="
+    );
+
+    console.log(req.body);
 
     const {
       field,
@@ -656,13 +563,21 @@ async (req, res) => {
       finalScore,
     } = req.body;
 
+    console.log(
+      "Gemini Key Exists:",
+      !!process.env.GEMINI_API_KEY
+    );
+
     const model =
       genAI.getGenerativeModel({
         model:
-        "gemini-2.0-flash",
+        "gemini-1.5-flash",
       });
 
     const prompt = `
+
+You are a Senior HR Manager.
+
 Candidate Field:
 ${field}
 
@@ -680,13 +595,25 @@ Generate interview feedback.
 Format:
 
 Strengths:
-- ...
+- Point 1
+- Point 2
 
 Weaknesses:
-- ...
+- Point 1
+- Point 2
+
+Communication:
+x/10
+
+Technical Skills:
+x/10
+
+Confidence:
+x/10
 
 Recommendation:
-...
+Selected / Improve Skills
+
 `;
 
     const result =
@@ -694,18 +621,34 @@ Recommendation:
         prompt
       );
 
-    res.json({
+    const feedback =
+      result.response.text();
+
+    console.log(
+      "Feedback Generated Successfully"
+    );
+
+    return res.status(200).json({
 
       success: true,
 
-      feedback:
-      result.response.text(),
+      feedback,
 
     });
 
   } catch (error) {
 
-    res.status(500).json({
+    console.log(
+      "========== FEEDBACK ERROR =========="
+    );
+
+    console.log(error);
+
+    console.log(
+      error.message
+    );
+
+    return res.status(500).json({
 
       message:
       error.message,
@@ -715,7 +658,6 @@ Recommendation:
   }
 
 };
-
 
 
 exports.getMyResults = async (req, res) => {

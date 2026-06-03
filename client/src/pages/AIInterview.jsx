@@ -1,372 +1,3 @@
-/*import { useEffect, useState } from "react";
-
-function AIInterview() {
-
-  const questions = [
-
-    {
-      question:
-        "What is React JS?",
-      options: [
-        "Database",
-        "Frontend Library",
-        "Backend Framework",
-        "Language",
-      ],
-      answer:
-        "Frontend Library",
-    },
-
-    {
-      question:
-        "What is useState Hook?",
-      options: [
-        "Database",
-        "React Hook",
-        "API",
-        "CSS",
-      ],
-      answer:
-        "React Hook",
-    },
-
-    {
-      question:
-        "What is MongoDB?",
-      options: [
-        "Frontend",
-        "Database",
-        "Library",
-        "API",
-      ],
-      answer:
-        "Database",
-    },
-
-    {
-      question:
-        "What is Express JS?",
-      options: [
-        "Backend Framework",
-        "Database",
-        "Language",
-        "Design Tool",
-      ],
-      answer:
-        "Backend Framework",
-    },
-
-    {
-      question:
-        "What is Node JS?",
-      options: [
-        "Runtime",
-        "Database",
-        "Library",
-        "Design Tool",
-      ],
-      answer:
-        "Runtime",
-    },
-
-  ];
-
-
-
-
-  const [currentQuestion,
-    setCurrentQuestion] =
-    useState(0);
-
-  const [score,
-    setScore] =
-    useState(0);
-
-  const [showResult,
-    setShowResult] =
-    useState(false);
-
-  const [timeLeft,
-    setTimeLeft] =
-    useState(900);
-
-
-
-
-  // TIMER
-  useEffect(() => {
-
-    if (timeLeft <= 0) {
-
-      setShowResult(true);
-
-      return;
-
-    }
-
-    const timer =
-      setInterval(() => {
-
-        setTimeLeft(
-          timeLeft - 1
-        );
-
-      }, 1000);
-
-
-
-
-    return () =>
-      clearInterval(timer);
-
-  }, [timeLeft]);
-
-
-
-
-  // CAMERA + MIC
-  useEffect(() => {
-
-    navigator.mediaDevices
-      .getUserMedia({
-
-        video: true,
-        audio: true,
-
-      })
-      .then((stream) => {
-
-        const video =
-          document.getElementById(
-            "video"
-          );
-
-        if (video) {
-
-          video.srcObject =
-            stream;
-
-        }
-
-      })
-      .catch((err) => {
-
-        console.log(err);
-
-      });
-
-  }, []);
-
-
-
-
-  // ANSWER
-  const handleAnswer =
-    (option) => {
-
-      if (
-        option ===
-        questions[currentQuestion]
-          .answer
-      ) {
-
-        setScore(score + 1);
-
-      }
-
-
-
-
-      const nextQuestion =
-        currentQuestion + 1;
-
-
-
-
-      if (
-        nextQuestion <
-        questions.length
-      ) {
-
-        setCurrentQuestion(
-          nextQuestion
-        );
-
-      } else {
-
-        setShowResult(true);
-
-      }
-
-    };
-
-
-
-
-  // RESULT %
-  const percentage =
-    (
-      (score /
-        questions.length) *
-      100
-    ).toFixed(0);
-
-
-
-
-  return (
-
-    <div className="min-h-screen bg-gray-100 p-10">
-
-      <div className="max-w-5xl mx-auto bg-white p-10 rounded-xl shadow-lg">
-
-
-
-
-        {/* TOP *//*}
-<div className="flex justify-between items-center mb-10">
-
-  <h1 className="text-4xl font-bold">
-    AI Interview Round
-  </h1>
-
-  <div className="bg-red-500 text-white px-5 py-2 rounded-lg text-xl font-bold">
-
-    {Math.floor(
-      timeLeft / 60
-    )}
-    :
-    {String(
-      timeLeft % 60
-    ).padStart(2, "0")}
-
-  </div>
-
-</div>
-
-
-
-
-{/* CAMERA *//*}
-<div className="mb-10">
-
-  <video
-    id="video"
-    autoPlay
-    muted
-    className="w-[300px] rounded-lg border"
-  />
-
-</div>
-
-
-
-
-{/* RESULT *//*}
-{showResult ? (
-
-  <div className="text-center">
-
-    <h2 className="text-5xl font-bold mb-5">
-      Interview Result
-    </h2>
-
-    <p className="text-3xl mb-5">
-      Score :
-      {" "}
-      {percentage}%
-    </p>
-
-
-
-
-    {percentage >= 75 ? (
-
-      <div>
-
-        <h1 className="text-5xl font-bold text-green-500 mb-5">
-          PASS ✅
-        </h1>
-
-        <p className="text-xl">
-          Congratulations!
-          You cleared the AI Interview.
-        </p>
-
-      </div>
-
-    ) : (
-
-      <div>
-
-        <h1 className="text-5xl font-bold text-red-500 mb-5">
-          FAIL ❌
-        </h1>
-
-        <p className="text-xl">
-          Better Luck Next Time
-        </p>
-
-      </div>
-
-    )}
-
-  </div>
-
-) : (
-
-  <div>
-
-    <h2 className="text-3xl font-bold mb-10">
-
-      Q.
-      {currentQuestion + 1}
-      {" "}
-      {questions[currentQuestion]
-        .question}
-
-    </h2>
-
-
-
-
-    <div className="grid grid-cols-2 gap-5">
-
-      {questions[
-        currentQuestion
-      ].options.map(
-        (option, index) => (
-
-          <button
-            key={index}
-            onClick={() =>
-              handleAnswer(
-                option
-              )
-            }
-            className="bg-black text-white p-5 rounded-lg hover:bg-gray-800 text-xl"
-          >
-            {option}
-          </button>
-
-        )
-      )}
-
-    </div>
-
-  </div>
-
-)}
-
-</div>
-
-</div>
-
-);
-}
-
-export default AIInterview;*/
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { interviewQuestions } from "../data/interviewQuestions";
@@ -424,6 +55,9 @@ function AIInterview() {
   const [voiceScore,
     setVoiceScore] =
     useState(0);
+    const [rawVoiceScore,
+  setRawVoiceScore] =
+  useState(0);
 
     const [finalScore,
   setFinalScore] =
@@ -743,10 +377,26 @@ const startListening = () => {
 
 const evaluateVoiceAnswer = async () => {
 
+  console.log(
+    "Question:",
+    voiceQuestions[
+      voiceQuestionIndex
+    ]
+  );
+
+  console.log(
+    "Answer:",
+    spokenAnswer
+  );
+
+
+
   try {
 
     const token =
-      localStorage.getItem("token");
+      localStorage.getItem(
+        "token"
+      );
 
     const res =
       await axios.post(
@@ -767,38 +417,62 @@ const evaluateVoiceAnswer = async () => {
         }
       );
 
-    const score =
-      parseInt(res.data.score);
-
-    setVoiceScore(
-      prev => prev + score
+    console.log(
+      "API Response:",
+      res.data
     );
+const score =
+  Number(
+    res.data.score || 0
+  );
+
+console.log(
+  "Score Received:",
+  score
+);
+
+   setRawVoiceScore(
+  prev => prev + score
+);
+
+alert(
+  "Gemini Score = " +
+  score
+);
 
     return score;
 
   } catch (error) {
 
+    console.log(
+      "Voice Evaluation Error:"
+    );
+
     console.log(error);
 
+    console.log(
+      error.response?.data
+    );
+
     return 0;
+
   }
+
 };
   const nextVoiceQuestion = async () => {
 
-  if (!cameraAllowed) {
-
-    alert(
-      "Camera & Microphone Required"
-    );
-
-    return;
-
-  }
-
-    window.speechSynthesis.cancel();
-
 const currentScore =
 await evaluateVoiceAnswer();
+
+console.log(
+  "CURRENT SCORE:",
+  currentScore
+);
+
+console.log(
+  "VOICE SCORE STATE:",
+  voiceScore
+);
 
     if (
       voiceQuestionIndex <
@@ -816,12 +490,20 @@ await evaluateVoiceAnswer();
         Number(percentage);
 
      const totalVoiceScore =
-voiceScore + currentScore;
+rawVoiceScore + currentScore;
+
+console.log("CURRENT SCORE:", currentScore);
+console.log("VOICE SCORE:", voiceScore);
+console.log("TOTAL:", totalVoiceScore);
 
 const voicePercentage =
-(
- (totalVoiceScore / 100) * 100
-).toFixed(0);
+Math.round(
+(totalVoiceScore / 80) * 100
+);
+console.log(
+  "VOICE PERCENTAGE:",
+  voicePercentage
+);
      /* const voicePercentage =
 (
   (voiceScore / 250) * 100
@@ -1003,300 +685,6 @@ console.log("RESULT PAGE OPEN");
   };
 
 
-/*
-  // FORM PAGE
-  if (step === "form") {
-
-    return (
-
-      <div className="min-h-screen flex justify-center items-center bg-gray-100">
-
-        <div className="bg-white p-10 rounded-xl shadow-lg w-[500px]">
-
-          <h1 className="text-4xl font-bold mb-6 text-center">
-            AI Interview Registration
-          </h1>
-
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
-            className="border p-3 w-full mb-4 rounded"
-          />
-
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            className="border p-3 w-full mb-4 rounded"
-          />
-
-          <select
-            value={field}
-            onChange={(e) =>
-              setField(e.target.value)
-            }
-            className="border p-3 w-full mb-4 rounded"
-          >
-            <option>MERN Stack</option>
-            <option>Full Stack</option>
-            <option>WordPress</option>
-            <option>UI/UX Design</option>
-            <option>AI/ML</option>
-          </select>
-
-
-          <button
-            onClick={startInterview}
-            className="bg-black text-white w-full p-3 rounded"
-          >
-            Start AI Interview
-          </button>
-
-        </div>
-
-      </div>
-
-    );
-
-  }
-
-
-
-  return (
-
-    <div className="min-h-screen bg-gray-100 p-10">
-
-      <div className="max-w-5xl mx-auto bg-white p-10 rounded-xl shadow-lg">
-
-        <div className="flex justify-between items-center mb-10">
-
-          <h1 className="text-4xl font-bold">
-            AI Interview
-          </h1>
-
-          <div className="bg-red-500 text-white px-5 py-2 rounded-lg font-bold">
-
-            {Math.floor(timeLeft / 60)}:
-            {String(
-              timeLeft % 60
-            ).padStart(2, "0")}
-
-          </div>
-
-        </div>
-
-
-
-        <div className="mb-8">
-
-          <video
-            id="video"
-            autoPlay
-            muted
-            className="w-[300px] rounded-lg border"
-          />
-
-
-        </div>
-{voiceRound && !showResult ? (
-
-  !cameraAllowed ? (
-
-    <div className="text-center">
-      <h1 className="text-red-500 text-3xl font-bold">
-        Camera & Microphone Required
-      </h1>
-    </div>
-
-  ) : (
-
-          <div className="text-center">
-
-            <h1 className="text-4xl font-bold mb-10">
-              Voice Interview Round
-            </h1>
-            <h3 className="text-xl font-bold mb-5">
-  Voice Question {voiceQuestionIndex + 1} / {voiceQuestions.length}
-</h3>
-
-            <h2 className="text-2xl mb-10">
-              {voiceQuestions[voiceQuestionIndex]}
-            </h2>
-
-            <textarea
-              value={spokenAnswer}
-              onChange={(e) =>
-                setSpokenAnswer(e.target.value)
-              }
-              className="border w-full p-5 mb-5"
-              rows="6"
-            />
-<button
-  onClick={startListening}
-  className="bg-green-500 text-white px-5 py-2 rounded"
->
-
-  {listening
-    ? "Listening..."
-    : "Start Speaking"}
-
-</button>
-
-            <button
-              onClick={nextVoiceQuestion}
-              className="bg-black text-white px-8 py-3 rounded"
-            >
-              Next Question
-            </button>
-
-          </div>
-  )
-
-) : showResult ? (
-
-  <div className="text-center">
-
-    <h1 className="text-5xl font-bold mb-5">
-      Interview Result
-    </h1>
-
-    <h2 className="text-3xl font-bold mb-5">
-      {finalScore >= 75
-        ? "🎉 Congratulations! You have cracked the interview."
-        : "Thank you for attending the interview."}
-    </h2>
-
-    <p className="text-xl mb-5">
-      Interview result has been sent to your email.
-    </p>
-
-    <p className="text-2xl">
-      MCQ Score : {percentage}%
-    </p>
-
-    <p className="text-2xl">
-      Voice Score :
-      {Math.round((voiceScore / 100) * 100)}%
-    </p>
-<p className="text-xl">
-Raw Voice Score :
-{voiceScore}
-</p>
-
-    <p className="text-3xl font-bold mt-5">
-      Final Score : {finalScore}%
-    </p>
-
-    <div className="mt-5">
-
-      {finalScore >= 75 ? (
-
-        <h1 className="text-green-500 text-5xl font-bold">
-          PASS ✅
-        </h1>
-
-      ) : (
-
-        <h1 className="text-red-500 text-5xl font-bold">
-          FAIL ❌
-        </h1>
-
-      )}
-      <div className="mt-10">
-
-  <h2 className="text-3xl font-bold mb-5">
-
-    AI Feedback Report
-
-  </h2>
-
-  <pre className="bg-gray-100 p-5 rounded text-left whitespace-pre-wrap">
-
-    {feedback}
-
-  </pre>
-
-</div>
-      <button
-  onClick={downloadReport}
-  className="bg-blue-600 text-white px-6 py-3 rounded mt-5"
->
-  Download PDF Report
-</button>
-
-    </div>
-
-  </div>
-
-) : (
-
-          questions.length > 0 && (
-
-            <div>
-              <h3 className="text-xl font-bold mb-4">
-  Question {currentQuestion + 1} / {questions.length}
-</h3>
-
-              <h2 className="text-3xl font-bold mb-10">
-
-                Q.{currentQuestion + 1}{" "}
-                {
-                  questions[
-                    currentQuestion
-                  ].question
-                }
-
-              </h2>
-
-              <div className="grid grid-cols-2 gap-5">
-
-                {questions[
-                  currentQuestion
-                ].options.map(
-                  (
-                    option,
-                    index
-                  ) => (
-
-                    <button
-                      key={index}
-                      onClick={() =>
-                        handleAnswer(
-                          option
-                        )
-                      }
-                      className="bg-black text-white p-5 rounded-lg hover:bg-gray-800"
-                    >
-                      {option}
-                    </button>
-
-                  )
-                )}
-
-              </div>
-
-            </div>
-
-          )
-
-        )}
-
-      </div>
-
-    </div>
-
-  );
-
-}
-
-export default AIInterview;*/
 
 
   // FORM PAGE
@@ -1480,12 +868,15 @@ return (
   </p>
 
   <p className="text-lg sm:text-2xl">
-    Voice Score :
-    {Math.round((voiceScore / 100) * 100)}%
+   Voice Score :
+{Math.round(
+(rawVoiceScore / 80) * 100
+)}%
   </p>
 
   <p className="text-lg sm:text-xl">
-    Raw Voice Score : {voiceScore}
+    Raw Voice Score :
+{rawVoiceScore}
   </p>
 
   <p className="text-2xl sm:text-3xl font-bold mt-5">

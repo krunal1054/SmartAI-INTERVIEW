@@ -5,15 +5,7 @@ const router = express.Router();
 const {
   protect,
 } = require("../middleware/authMiddleware");
-/*const {
-  startInterview,
-  saveResult,
-  generateQuestions,
-  evaluateAnswer,
-  getResults,
-} = require(
-  "../controllers/interviewController"
-);*/
+
 
 const {
   startInterview,
